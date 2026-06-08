@@ -19,14 +19,8 @@ Every product we build is focused on one goal — ensuring that every online ass
 ### 🖥️ VISION Browser
 A proprietary secure desktop application that acts as a locked, controlled workspace for candidates during assessments. Once launched, it takes complete control of the device environment — preventing unauthorized access, application switching, external communication, and screen capture — ensuring that what happens inside the exam stays inside the exam.
 
-### 🧠 VISION Platform
+### 🧠 [VISION Platform](https://visionexam.xyz/)
 The intelligent backend engine that powers assessments end-to-end. It handles candidate onboarding, live session monitoring, real-time behavioral analysis, AI-assisted proctoring, automated result generation, and administrator dashboards — all in a seamless, high-performance pipeline.
-
----
-
-## 🌐 Live Platform
-
-> Try the VISION Platform live — **[visionexam.xyz](https://visionexam.xyz/)**
 
 ---
 
