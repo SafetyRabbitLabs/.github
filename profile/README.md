@@ -24,10 +24,4 @@ The intelligent backend engine that powers assessments end-to-end. It handles ca
 
 ---
 
-## 🔒 Privacy Notice
-
-All repositories within this organization are **strictly private**. Source code, architecture, and implementation details are proprietary and confidential.
-
----
-
 *Built with integrity. Secured by design.*
