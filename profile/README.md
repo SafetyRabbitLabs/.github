@@ -1,32 +1,42 @@
 # 🐇 SafetyRabbitLabs
 
-Welcome to **SafetyRabbitLabs**! This is the core development hub for the **VISION** ecosystem—an enterprise-grade secure workspace and AI-governed exam governance platform.
+Welcome to **SafetyRabbitLabs**! This is the central engineering hub for the **VISION** ecosystem—an enterprise-grade secure workspace and AI-governed assessment runtime platform.
+
+The VISION ecosystem provides high-integrity online evaluations, secure interviewing workspaces, and absolute device lockdown by combining native OS-level security layers with real-time AI-proctoring pipelines.
 
 ---
 
-## 🛠️ Active Repositories
+## 🛠️ Ecosystem Architecture & Repositories
 
 ### 1. 🎓 [Vision-Browser](https://github.com/SafetyRabbitLabs/Vision-Browser)
-A hardened Chromium-based desktop runtime designed to lock down the operating system and prevent unauthorized actions during high-stakes assessments.
-* **Technology**: C# / .NET (WPF Shell) + CEF (Chromium Embedded Framework) + CefSharp.
-* **Key Features**:
-  * Prevents OS-level shortcuts (Alt+Tab, Alt+F4, Win Key, etc.).
-  * Blocks screenshot captures and screen-recording attempts.
-  * Disables DevTools, right-click context menus, and extensions.
-  * Continuously monitors running background processes to block blacklisted applications.
+A hardened Chromium-based desktop runtime designed to lock down the operating system and enforce complete integrity during assessments. Rather than acting as a simple exam browser, it serves as a reusable **Secure Workspace Runtime** designed to host multiple child products (VISION Exam, VISION Interview, VISION Certification, and Enterprise Lockdown).
 
-### 2. 📝 [Ai-secure-exam-browser](https://github.com/SafetyRabbitLabs/Ai-secure-exam-browser) *(OJT Project)*
-The core enterprise web application platform that powers the examinations, real-time proctoring, and automated evaluation.
-* **Technology**: Node.js, Express, MongoDB, Redis, BullMQ, Socket.IO, React.
-* **Key Features**:
-  * **Input Governance**: Zod strict payload validation to prevent mass-assignment.
-  * **Asynchronous Grading**: Redis and BullMQ powered grading workers (using Judge0 / isolated-vm).
-  * **Real-time Proctoring**: Socket.IO for real-time tracking, live monitoring, and snapshot vaults.
-  * **Hardened Auth**: Session versioning, JWT rotation, and proactive theft detection.
+* **Technology Stack**: C# / .NET (WPF Native Shell) + CEF (Chromium Embedded Framework) + CefSharp Bindings + Windows API Interop (P/Invoke).
+* **Core Security & OS Lockdown Mechanisms**:
+  * **Low-Level Input Hooks**: Uses native keyboard hooks (`SetWindowsHookEx` via `user32.dll`) to block OS-level navigation shortcuts including `Alt+Tab`, `Alt+F4`, `Windows Key`, `Ctrl+Esc`, and task-switching.
+  * **Anti-Screen Capture (DRM)**: Employs Windows Display Affinity API (`WDA_EXCLUDEFROMCAPTURE`) to black out the browser window in all screenshots, video capture tools, screen sharing platforms, and remote desktop streams.
+  * **Process Governance Engine**: Actively monitors running system processes via WMI and background polling to detect, alert, or force-terminate unauthorized software (e.g., Discord, TeamViewer, AnyDesk, Virtual Machines).
+  * **Hardened CEF Runtime**: Customized Chromium settings to block developer tools (DevTools), hide address/status bars, restrict extensions, prevent right-click context menus, and intercept all popup/multi-monitor windows.
+  * **Policy-Driven Execution**: Behaviors, URL whitelists, and restriction strictness are dynamically injected per session via the admin portal policy engine.
+
+---
+
+### 2. 📝 [Ai-secure-exam-browser](https://github.com/SafetyRabbitLabs/Ai-secure-exam-browser)
+The core web application platform and scalable backend orchestrating assessments, real-time proctoring data streams, and automated evaluation engines.
+
+* **Technology Stack**: Node.js, Express, MongoDB (Mongoose), Redis, BullMQ, Socket.IO, React, Zod.
+* **Core Capabilities & Engineering Standards**:
+  * **Input Governance Layer (Zod)**: All incoming payloads are strictly validated using Zod schemas. Strict mode is enforced to reject extra fields and systematically prevent mass-assignment vulnerabilities.
+  * **Asynchronous Grading Pipeline**: Offloads code evaluation to background workers powered by Redis and BullMQ. Grading jobs are isolated and executed securely using sandboxed runtimes (Judge0 API & JSDOM/isolated-vm).
+  * **Real-Time Proctoring & Event Streams**: Establishes JWT-authenticated Socket.IO connections for continuous state syncing, live event logs (tab switches, webcam violations), and live camera snapshot archiving to Cloudinary.
+  * **Hardened Session & Token Security**:
+    * *Refresh Token Rotation (RTR)*: Every token refresh cycle generates a rotating token; any attempt to reuse an old token triggers proactive account lockdown (Theft Detection).
+    * *Session Versioning*: JWTs contain a `sessionVersion` identifier. Incrementing this version in the database acts as a global kill switch, immediately invalidating all active socket connections and tokens.
+  * **Centralized Bootstrap Orchestration**: Employs a linear startup sequence (`Environment Checks` ➡️ `DB Connect` ➡️ `Redis Connect` ➡️ `Worker Registry` ➡️ `Cache Warmup` ➡️ `Server Listen` ➡️ `Health Monitor`).
 
 ---
 
 ## 🔒 Security & Privacy Notice
-All repositories in this organization are kept **Private** to protect proprietary core logic, custom security layers, and exam integrity enforcement mechanisms.
+All repositories in this organization are kept **Private** to safeguard proprietary security measures, sandbox escape preventions, anti-cheat mechanisms, and client assessment data.
 
-*For installation, setup instructions, or API documentation, please refer to the respective repository directories.*
+*For setup guides, local configuration (.env keys), or API documentation, please refer to the respective repository directories.*
