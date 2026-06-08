@@ -24,4 +24,10 @@ The intelligent backend engine that powers assessments end-to-end. It handles ca
 
 ---
 
+## 🌐 Live Platform
+
+> Try the VISION Platform live — **[visionexam.xyz](https://visionexam.xyz/)**
+
+---
+
 *Built with integrity. Secured by design.*
